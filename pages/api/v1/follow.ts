@@ -45,6 +45,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     })
 
+    try {
+      await prisma.notification.create({
+        data: {
+          body: `${currentUser.name} followed you.`,
+          userId
+        }
+      })
+
+      await prisma.user.update({
+        where: {
+          id: userId
+        },
+        data: {
+          hasNotification: true
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
     return res.status(200).json(updatedUser);
 
   } catch (error) {

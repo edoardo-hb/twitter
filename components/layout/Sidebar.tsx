@@ -18,10 +18,11 @@ export const Sidebar = () => {
       icon: BsHouseFill
     },
     {
-      label: 'Notification',
-      href: '/notification',
+      label: 'Notifications',
+      href: '/notifications',
       icon: BsBellFill,
       auth: true,
+      alert: currentUser?.hasNotification,
     },
     {
       label: 'Profile',
@@ -37,7 +38,7 @@ export const Sidebar = () => {
         <div className='space-y-2 lg:w-[230px]'>
           <SidebarLogo />
           {items.map((item) => (
-            <SidebarItem key={item.href} href={item.href} label={item.label} icon={item.icon} auth={item.auth} />
+            <SidebarItem key={item.href} href={item.href} label={item.label} icon={item.icon} auth={item.auth} alert={item.alert} />
           ))}
 
           {currentUser && (
