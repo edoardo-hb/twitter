@@ -29,7 +29,7 @@ export const RegisterModal = () => {
     try {
       setIsLoading(true)
 
-      await axios.post('/api/register', {
+      await axios.post('/api/v1/register', {
         email,
         password,
         username,
