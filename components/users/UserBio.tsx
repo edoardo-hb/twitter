@@ -5,6 +5,7 @@ import { BiCalendar } from 'react-icons/bi'
 import useCurrentUser from "~/hooks/useCurrentUser";
 import useUser from "~/hooks/useUser";
 import { Button } from '../Button';
+import { useEditModal } from '~/hooks/useEditModal';
 
 interface UserBioProps {
   userId: string;
@@ -13,6 +14,8 @@ interface UserBioProps {
 export const UserBio: React.FC<UserBioProps> = ({ userId }) => {
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId);
+
+  const editModal = useEditModal();
 
   const createdAt = useMemo(() => {
     if (!fetchedUser?.createdAt) {
@@ -26,7 +29,7 @@ export const UserBio: React.FC<UserBioProps> = ({ userId }) => {
     <div className='border-b-[1px] border-neutral-800 pb-4'>
       <div className='flex justify-end p-2'>
         {currentUser?.id === userId ? (
-          <Button outline label='Edit Profile' onClick={() => {}} />
+          <Button secondary label="Edit Profile" onClick={editModal.onOpen} />
         ) : (
           <Button secondary label='Follow' onClick={() => {}} />
         )}
@@ -58,7 +61,7 @@ export const UserBio: React.FC<UserBioProps> = ({ userId }) => {
           </div>
 
           <div className="flex flex-row items-center gap-1">
-            <p className='text-white'>{fetchedUser?.followingCount || 0}</p>
+            <p className='text-white'>{fetchedUser?.followersCount || 0}</p>
             <p className='text-neutral-500'>Followers</p>
           </div>
         </div>
