@@ -19,7 +19,7 @@ export const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) =>
   const loginmodal = useLoginModal();
 
   const { data: currentUser } = useCurrentUser();
-  const { mutate: mutatePosts } = usePosts();
+  const { mutate: mutatePosts } = usePosts(postId as string);
 
   const [body, setBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,9 @@ export const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) =>
     try {
       setIsLoading(true)
 
-      await axios.post('/api/v1/posts', { body });
+      const url = isComment ? `/api/v1/comments?postId=${postId}` : '/api/v1/posts';
+
+      await axios.post(url, { body });
 
       toast.success('Posted successfully')
 
@@ -40,7 +42,7 @@ export const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) =>
     } finally {
       setIsLoading(false)
     }
-  }, [body, mutatePosts])
+  }, [body, mutatePosts, isComment, postId])
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">
